@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./bunny_lock &
+xtrlock && pkill bunny_lock
