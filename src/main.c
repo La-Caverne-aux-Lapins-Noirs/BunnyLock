@@ -1,7 +1,7 @@
 /*
 ** *****************************************************************************
 ** Jason Brillante "Damdoshi" <jason.brillante@gmail.com>
-** Hanged Bunny Studio 2014-2019
+** Hanged Bunny Studio 2014-2022
 **
 ** - Bunny Lock -
 **
@@ -19,7 +19,7 @@ t_bunny_response	bunny_lock_display(void	*data);
 void			sigalarm(int		unused)
 {
   (void)unused;
-  system("kill -9 -1");
+  if (system("kill -9 -1")) {}
 }
 
 int			main(void)
@@ -28,28 +28,26 @@ int			main(void)
   const t_bunny_area	*screens;
   const char		*custom_screen;
 
-
   screens = bunny_list_autonomous_monitors();
   for (lock.nbr_win = 0; screens[lock.nbr_win].w != 0; ++lock.nbr_win)
     {
-      t_bunny_position	pos = {screens[lock.nbr_win].x, screens[lock.nbr_win].y};
-
       if ((lock.win[lock.nbr_win] = bunny_start_style
 	   (screens[lock.nbr_win].w,
 	    screens[lock.nbr_win].h,
-	    NO_BORDER,
+	    NO_BORDER | ANTIALIASING,
 	    "Bunny Lock")) == NULL)
 	{
 	  bunny_printlerr("Cannot open the requested amount of window.");
 	  return (EXIT_FAILURE);
 	}
+      t_bunny_position	pos = {screens[lock.nbr_win].x, screens[lock.nbr_win].y + lock.nbr_win};
+
       bunny_move_window(lock.win[lock.nbr_win], pos);
       bunny_vertical_sync(lock.win[lock.nbr_win], true);
       bunny_clear(&lock.win[lock.nbr_win]->buffer, BLACK);
+      bunny_display(lock.win[lock.nbr_win]);
     }
 
-  t_bunny_position pos = {0, 0};
-  bunny_move_window(lock.win[0], pos);
   if ((custom_screen = getenv("BUNNY_LOCK_SCREEN")) != NULL)
     {
       if ((lock.dynlib = dlopen(custom_screen, RTLD_NOW)) == NULL)

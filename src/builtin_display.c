@@ -29,7 +29,7 @@ static bool		try_init(t_bunny_lock_shared_data		*lck)
   if ((lck->custom_data = calloc(1, sizeof(t_bunny_builtin))) == NULL)
     return (false);
   t_bunny_builtin	*bu = lck->custom_data;
-  
+
   bu->transform.xscale = 1;
   bu->transform.yscale = 1;
 
@@ -72,10 +72,10 @@ static t_bunny_response	lock_builtin_display(t_bunny_lock_shared_data	*lcks,
       lck->stars.vertex[i].color = lck->stars.color[i].full;
     }
   bunny_set_geometry(&win->buffer, BGY_PIXELS, (t_bunny_vertex_array*)&lck->stars.length, NULL);
-  
+
   /// LETTRES 3D
-  
-  const char		*str = "ECOLE 89";
+
+  const char		*str = "E F R I T S";
   t_bunny_position	pos;
   t_bunny_size		siz;
 
@@ -103,7 +103,7 @@ static t_bunny_response	lock_builtin_display(t_bunny_lock_shared_data	*lcks,
     {
       write_letters
 	(win, str, &pos, &siz,
-	 WHITE, &lck->transform
+	 YELLOW | GRAY(128), &lck->transform
 	 );
       pos.x += 1;
       pos.y += 1;
@@ -116,10 +116,10 @@ static t_bunny_response	lock_builtin_display(t_bunny_lock_shared_data	*lcks,
       lck->transform.shiftz = -cos(tim) * 10 * (j + 1);
       write_letters
 	(win, str, &pos, &siz,
-	 WHITE, &lck->transform
+	 RED | GRAY(128), &lck->transform
 	 );
     }
-  
+
   bunny_fill(&win->buffer, ALPHA(64, BLACK));
   return (GO_ON);
 }
@@ -153,7 +153,7 @@ t_bunny_response	bunny_lock_builtin_display(t_bunny_lock_shared_data	*lck)
 	  cd->stars.color[i].full = ALPHA(0, WHITE);
 	}
     }
-  
+
   for (size_t i = 0; i < lck->nbr_win; ++i)
     if ((ret = lock_builtin_display(lck, lck->win[i])) != GO_ON)
       return (ret);

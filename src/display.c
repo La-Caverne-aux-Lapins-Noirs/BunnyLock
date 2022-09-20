@@ -12,8 +12,8 @@
 
 t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
 {
-  //int			remaining = (30 * 60) - bunny_get_current_time() - lck->start_time;
-  int			remaining = bunny_get_current_time() - lck->start_time;
+  int			remaining = (30 * 60) - (bunny_get_current_time() - lck->start_time);
+  // int			remaining = bunny_get_current_time() - lck->start_time;
   char			buffer[32];
   t_bunny_response	ret;
   size_t		i;
@@ -40,13 +40,13 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
 
   siz.x = 50;
   siz.y = 50;
- 
+
   snprintf(&buffer[0], sizeof(buffer), "%02d %02d", remaining / 60, remaining % 60);
 
   if (remaining % 60 == 0 && lck->last_rotation != remaining)
     {
       int		sel = rand() % 5;
-      
+
       lck->last_rotation = remaining;
       t = &lck->clock_transform;
 
@@ -78,7 +78,7 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
       for (int j = 20; j >= 0; --j)
 	{
 	  int colratio = (int)(((double)j / 20) * 255);
-	  
+
 	  pos.x = siz.x + 20 - j;
 	  pos.y = lck->win[i]->buffer.height - siz.y * 2 + 20 - j;
 	  if (t)
@@ -98,4 +98,3 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
   bunny_reach(&lck->clock_transform.rotz, 0, 5);
   return (GO_ON);
 }
-

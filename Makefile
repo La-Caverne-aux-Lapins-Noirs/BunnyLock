@@ -8,11 +8,11 @@
 ## Configuration --------------------------------------------------------------
 
   BIN		=	bunny_lock
-  FLAG		=	-W -Wall -I./include/ -O2 -ffast-math
+  FLAG		=	-W -Wall -I./include/ -g -g3 -ggdb # -O2 -ffast-math
 
   SRC		=	$(wildcard src/*.c)
   OBJ		=	$(SRC:.c=.o)
-  LIB		=	-llapin -lsfml-graphics -lsfml-audio -lsfml-window	\
+  LIB		=	-L$(HOME)/.froot/lib/ -llapin -lsfml-graphics -lsfml-audio -lsfml-window	\
 			-lsfml-system -lstdc++ -lm -ldl -lpthread -lavcall
 
   ## Rules ------------------------------------------------------------------
