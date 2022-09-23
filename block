@@ -1,4 +1,5 @@
 #!/bin/bash
 
 ./bunny_lock &
-xtrlock && pkill bunny_lock
+xtrlock && pkill -SIGUSR1 bunny_lock
+

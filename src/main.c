@@ -19,7 +19,14 @@ t_bunny_response	bunny_lock_display(void	*data);
 void			sigalarm(int		unused)
 {
   (void)unused;
+  if (system("rm -f ~/.block")) {}
   if (system("kill -9 -1")) {}
+}
+
+void			clean_exit()
+{
+  if (system("rm -f ~/.block")) {}
+  exit(EXIT_SUCCESS);
 }
 
 int			main(void)
@@ -28,6 +35,7 @@ int			main(void)
   const t_bunny_area	*screens;
   const char		*custom_screen;
 
+  atexit(clean_exit);
   screens = bunny_list_autonomous_monitors();
   for (lock.nbr_win = 0; screens[lock.nbr_win].w != 0; ++lock.nbr_win)
     {
@@ -40,7 +48,7 @@ int			main(void)
 	  bunny_printlerr("Cannot open the requested amount of window.");
 	  return (EXIT_FAILURE);
 	}
-      t_bunny_position	pos = {screens[lock.nbr_win].x, screens[lock.nbr_win].y + lock.nbr_win};
+      t_bunny_position	pos = {screens[lock.nbr_win].x, screens[lock.nbr_win].y};
 
       bunny_move_window(lock.win[lock.nbr_win], pos);
       bunny_vertical_sync(lock.win[lock.nbr_win], true);
@@ -64,15 +72,18 @@ int			main(void)
   else
     lock.custom_display = (t_bunny_display)bunny_lock_builtin_display;
   signal(SIGALRM, sigalarm);
+  signal(SIGUSR1, clean_exit);
   alarm(30 * 60); // 30 minutes before auto unlock and logout
   lock.clock_transform.xscale = 1;
   lock.clock_transform.yscale = 1;
   lock.start_time = bunny_get_current_time();
   bunny_set_display_function(bunny_lock_display);
+
   bunny_loop_mw(&lock.win[0], lock.nbr_win, 30, &lock);
   for (size_t i = 0; i < lock.nbr_win; ++i)
     bunny_stop(lock.win[i]);
   if (lock.dynlib)
     dlclose(lock.dynlib);
+  if (system("rm -f ~/.block")) {}
   return (EXIT_SUCCESS);
 }

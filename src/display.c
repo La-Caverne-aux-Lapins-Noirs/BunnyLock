@@ -18,6 +18,17 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
   t_bunny_response	ret;
   size_t		i;
 
+  static bool		touch = false;
+
+  if (remaining % 2 == 0)
+    {
+      if (touch == false)
+	if (system("touch ~/.block")) {}
+      touch = true;
+    }
+  else
+    touch = false;
+
   if (lck->custom_display)
     if ((ret = lck->custom_display
 	 ((t_bunny_lock_shared_data*)lck)) != GO_ON)
