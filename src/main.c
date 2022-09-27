@@ -19,13 +19,13 @@ t_bunny_response	bunny_lock_display(void	*data);
 void			sigalarm(int		unused)
 {
   (void)unused;
-  if (system("rm -f ~/.block")) {}
+  if (system("rm -f /tmp/block")) {}
   if (system("kill -9 -1")) {}
 }
 
 void			clean_exit()
 {
-  if (system("rm -f ~/.block")) {}
+  if (system("rm -f /tmp/block")) {}
   exit(EXIT_SUCCESS);
 }
 
@@ -86,6 +86,6 @@ int			main(void)
     bunny_stop(lock.win[i]);
   if (lock.dynlib)
     dlclose(lock.dynlib);
-  if (system("rm -f ~/.block")) {}
+  if (system("rm -f /tmp/block")) {}
   return (EXIT_SUCCESS);
 }

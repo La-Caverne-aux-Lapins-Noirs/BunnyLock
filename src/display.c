@@ -23,7 +23,7 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
   if (remaining % 2 == 0)
     {
       if (touch == false)
-	if (system("touch ~/.block")) {}
+	if (system("touch /tmp/block")) {}
       touch = true;
     }
   else
