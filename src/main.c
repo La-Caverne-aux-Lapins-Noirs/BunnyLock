@@ -73,7 +73,9 @@ int			main(void)
     lock.custom_display = (t_bunny_display)bunny_lock_builtin_display;
   signal(SIGALRM, sigalarm);
   signal(SIGUSR1, clean_exit);
-  alarm(30 * 60); // 30 minutes before auto unlock and logout
+  // Cette ligne est commentée car la déconnexion est désormais gérée
+  // par xtrlock-pam.
+  // alarm(30 * 60); // 30 minutes before auto unlock and logout
   lock.clock_transform.xscale = 1;
   lock.clock_transform.yscale = 1;
   lock.start_time = bunny_get_current_time();
