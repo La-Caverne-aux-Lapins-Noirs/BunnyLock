@@ -1,5 +1,5 @@
 #!/bin/bash
 
 ./bunny_lock &
-xtrlock-pam && pkill -SIGUSR1 bunny_lock
+xtrlock-pam -b none && pkill -SIGUSR1 bunny_lock
 
