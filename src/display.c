@@ -84,6 +84,12 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
 	}
     }
 
+  t_bunny_position upos = {50, 50};
+  t_bunny_position usiz = {30, 30};
+  char		ubuffer[128];
+
+  snprintf(&ubuffer[0], sizeof(ubuffer), "locked by %s", getenv("USER"));
+  
   for (i = 0; i < lck->nbr_win; ++i)
     {
       for (int j = 20; j >= 0; --j)
@@ -101,8 +107,13 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
 	    (lck->win[i], &buffer[0], &pos, &siz,
 	     ALPHA(colratio, WHITE), t);
 	}
+      write_letters
+	(lck->win[i], &ubuffer[0], &upos, &usiz,
+	 YELLOW, NULL);
       bunny_display(lck->win[i]);
     }
+
+  
 
   bunny_reach(&lck->clock_transform.rotx, 0, 5);
   bunny_reach(&lck->clock_transform.roty, 0, 5);

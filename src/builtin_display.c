@@ -75,7 +75,7 @@ static t_bunny_response	lock_builtin_display(t_bunny_lock_shared_data	*lcks,
 
   /// LETTRES 3D
 
-  const char		*str = "E F R I T S";
+  const char		*str = "E F R\nI T S";
   t_bunny_position	pos;
   t_bunny_size		siz;
 
