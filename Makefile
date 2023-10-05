@@ -30,7 +30,6 @@
 		@rm -f $(BIN)
   re:		fclean all
   install:
-		apt-get install xtrlock
 		cp $(BIN) /usr/local/bin
 		cp block /usr/local/bin
 
