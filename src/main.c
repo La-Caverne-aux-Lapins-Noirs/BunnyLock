@@ -28,6 +28,10 @@ void			clean_exit()
   if (system("rm -f /tmp/block")) {}
   exit(EXIT_SUCCESS);
 }
+void			sig_exit(int)
+{
+  exit(EXIT_SUCCESS);
+}
 
 int			main(void)
 {
@@ -72,7 +76,7 @@ int			main(void)
   else
     lock.custom_display = (t_bunny_display)bunny_lock_builtin_display;
   signal(SIGALRM, sigalarm);
-  signal(SIGUSR1, clean_exit);
+  signal(SIGUSR1, sig_exit);
   // Cette ligne est commentée car la déconnexion est désormais gérée
   // par xtrlock-pam.
   // alarm(30 * 60); // 30 minutes before auto unlock and logout
