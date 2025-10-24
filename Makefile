@@ -12,17 +12,15 @@
 
   SRC		=	$(wildcard src/*.c)
   OBJ		=	$(SRC:.c=.o)
-  LIB		=	-L$(HOME)/.froot/lib/ -L../LibLapin -llapin -lsfml-graphics -lsfml-audio -lsfml-window	\
-			-lsfml-system -lstdc++ -lm -ldl -lpthread -lavcall
 
   ## Rules ------------------------------------------------------------------
   all:		bin
   bin:		$(OBJ)
-		@gcc $(OBJ) -o $(BIN) $(LIBPATH) $(LIB)
+		@bcc $(OBJ) -o $(BIN) $(LIBPATH) $(LIB)
 		@echo "[OUT] " $(BIN)
 		@echo $(BIN) | tr '[:lower:]' '[:upper:]'
   .c.o:
-		@gcc $(FLAG) -c $< -o $@
+		@bcc $(FLAG) -c $< -o $@
 		@echo "[GCC]" $<
   clean:
 		@rm -f $(OBJ)
@@ -32,6 +30,8 @@
   install:
 		cp $(BIN) /usr/local/bin
 		cp block /usr/local/bin
+  package:
+		dpkg-buildpackage -us -uc
 
 ## ----------------------------------------------------------------------------
 ## MISC -----------------------------------------------------------------------

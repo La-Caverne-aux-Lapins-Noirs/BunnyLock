@@ -1,0 +1,15 @@
+Source: bunny-lock
+Priority: optional
+Maintainer: technocore <technocore@technocore>
+Build-Depends: debhelper-compat (= 13), xtrlock-pam, liblapin-dev
+Standards-Version: 4.6.2
+
+Package: bunny-lock
+Section: libdevel
+Architecture: all
+Depends: ${misc:Depends}
+Description: Session utils.
+ Animation that can switched with a dynamic lib,
+ working with xtrlock-pam to create an animation
+ on locked screen.
+ 
