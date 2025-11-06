@@ -18,6 +18,7 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
   t_bunny_response	ret;
   size_t		i;
 
+  /*
   static bool		touch = false;
 
   if (remaining % 2 == 0)
@@ -28,6 +29,7 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
     }
   else
     touch = false;
+  */
 
   if (lck->custom_display)
     if ((ret = lck->custom_display
@@ -107,9 +109,14 @@ t_bunny_response	bunny_lock_display(t_bunny_lock		*lck)
 	    (lck->win[i], &buffer[0], &pos, &siz,
 	     ALPHA(colratio, WHITE), t);
 	}
+      // rand, pour éviter qu'une animation custom d'un élève
+      // ne cache les informations qu'il est interdit de cacher
+      write_letters
+	(lck->win[i], &buffer[0], &pos, &siz,
+	 rand() | BLACK, t);
       write_letters
 	(lck->win[i], &ubuffer[0], &upos, &usiz,
-	 YELLOW, NULL);
+	 rand() | BLACK, NULL);
       bunny_display(lck->win[i]);
     }
 

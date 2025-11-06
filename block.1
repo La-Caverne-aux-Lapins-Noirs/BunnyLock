@@ -1,0 +1,59 @@
+.\" ============================================================================
+.\" block(1) — Bunny lock software
+.\" ============================================================================
+.TH block 1 5 "Novembre 2025" "Huile utils" "Documentation sur le verrouilleur d'écran"
+.
+.
+.SH NAME
+block \- Logiciel de verrouillage d'écran avec animation remplacable.
+.
+.SH SYNOPSIS
+Le logiciel block sert à la personne connectée physiquement sur l'ordinateur
+de protéger l'accès à celui-ci pendant un éloignement, le temps de prendre une pause.
+.
+.SH DESCRIPTION
+La commande block occupe l'ensemble des écrans du poste avec une animation en plein
+écran et provoque le verrou des périphériques de saisie. Pour déverouiller le poste,
+il faut taper le mot de passe de l'utilisateur connecté.
+.
+Un minuteur débutant à 30 minutes démarre lorsque bunny lock est lancé. Une fois
+ce minuteur à zéro, il devient possible d'expulser l'utilisateur connecté par
+une simple pression sur la touche d'échappement.
+.
+.SH INFORMATIONS
+A l'écran figure l'information de l'utilisateur connecté ainsi que le temps restant
+avant de pouvoir expulser de force celui-ci par une pression sur la touch d'échappement.
+.SH EXTENSIONS
+Il est possible d'écrire une extension à bunny lock permettant de remplacer l'animation
+par défaut par une autre. Il n'est pas possible d'empecher l'écriture du minuteur
+et du nom de l'utilisateur actuellement connecté.
+.
+Pour remplacer l'animation par défaut par la votre, vous devez établir la variable
+d'environnement BUNNY_LOCK_SCREEN à un chemin d'accès absolu menant vers une
+bibliothèque dynamique. Cette bibliothèque dynamique devra disposer de la fonction
+suivante:
+
+.PP
+.nf
+.in +4
+.B typedef struct		s_bunny_lock_shared_data
+{
+  t_bunny_window	   *win[16];
+  size_t		   nbr_win;
+  void			   *custom_data;
+.B }				t_bunny_lock_shared_data;
+.fi
+
+.BI "t_bunny_response bunny_lock_display(t_bunny_lock_shared_data *" lck ");"
+.in -4
+.br
+.PP
+Cette fonction sera établie comme fonction de rappel de l'environnement LibLapin en
+tant que fonction d'affichage. Le programme bunny lock s'occupera d'appeler bunny_display,
+vous n'avez donc pas à le faire. Votre fonction devra toujours renvoyer GO_ON au risque
+de provoquer la fin de votre verrouillage.
+.
+.SH AUTHOR
+Par \fBJason Brillante\fR "\fBDamdoshi\fR", \fBPentacle Technologie\fR et \fBEFRITS\fR.
+.
+.\" ============================================================================

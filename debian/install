@@ -1,2 +1,4 @@
 block usr/bin/
 bunny_lock usr/bin/
+block.1 usr/share/man/man1/
+
